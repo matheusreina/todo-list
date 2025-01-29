@@ -1,0 +1,72 @@
+<div class="container mt-5">
+  <h2>Task List</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="col-1">#</th>
+        <th class="col-2">Title</th>
+        <th class="col-3">Description</th>
+        <th class="col-4">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks">
+        <td class="checkbox-td">
+          <input
+            class="checkbox"
+            type="checkbox"
+            [(ngModel)]="task.completed"
+            (change)="toggleCompleted(task)"
+          />
+        </td>
+        <td class="align-middle">
+          <div *ngIf="!task.updating" [ngClass]="{ completed: task.completed }">
+            {{ task.title }}
+          </div>
+          <input
+            *ngIf="task.updating"
+            type="text"
+            [(ngModel)]="task.title"
+            maxlength="20"
+            class="form-control"
+          />
+        </td>
+        <td class="align-middle">
+          <div *ngIf="!task.updating" [ngClass]="{ completed: task.completed }">
+            {{ task.description }}
+          </div>
+          <input
+            *ngIf="task.updating"
+            [(ngModel)]="task.description"
+            maxlength="100"
+            class="form-control"
+          />
+        </td>
+        <td class="align-middle">
+          <button
+            *ngIf="!task.updating"
+            [attr.disabled]="task.completed ? '' : null"
+            class="btn btn-primary btn-sm"
+            (click)="startUpdating(task)"
+          >
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button
+            *ngIf="task.updating"
+            class="btn btn-success btn-sm"
+            (click)="saveTask(task)"
+          >
+            <i class="bi bi-check2-square"></i>
+          </button>
+          <button
+            *ngIf="!task.updating"
+            class="btn btn-danger btn-sm mx-2"
+            (click)="deleteTask(task.id!)"
+          >
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
